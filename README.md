@@ -3,11 +3,12 @@
 Import GraphQL queries/mutations/subscriptions of your project to one object
 
 ## Installation
-npm i -g graphql-collector
+
+npm i graphql-collector
 
 [![npm version](https://badge.fury.io/js/graphql-collector.svg)](https://badge.fury.io/js/graphql-collector)
 
-## Use
+## Usage
 
 ```js
 const { collect } = require('graphql-collector')
