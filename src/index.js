@@ -1,6 +1,7 @@
 const gql = require('graphql-tag')
 const { print } = require('graphql/language/printer')
 const { searchSchemas } = require('./utils')
+const fs = require('fs')
 
 function splitSchemaToObject (doc) {
   var definitionRefs = {}

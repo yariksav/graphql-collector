@@ -1,7 +1,6 @@
 const fs = require('fs')
 const path = require('path')
 
-
 const searchAllFiles = (dir) => {
   return fs.readdirSync(dir).reduce((files, file) => {
       const name = path.join(dir, file)
