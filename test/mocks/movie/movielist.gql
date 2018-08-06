@@ -1,0 +1,7 @@
+query ListMovies {
+  allFilms {
+    films {
+      ...Movie
+    }
+  }
+}

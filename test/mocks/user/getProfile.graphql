@@ -1,0 +1,5 @@
+query getProfile {
+  profile {
+    ...userFields
+  }
+}

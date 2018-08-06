@@ -1,0 +1,7 @@
+fragment avatarFields on Avatar {
+  large
+  original
+  thumbnail
+  normal
+  small 
+}

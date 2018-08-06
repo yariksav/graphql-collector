@@ -1,0 +1,5 @@
+fragment jwtToken on JwtToken {
+  token
+  refreshToken
+  type
+}

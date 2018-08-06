@@ -1,0 +1,5 @@
+mutation login ($uid: String!, $password: String!) {
+  login (uid: $uid, password: $password) {
+    ...jwtToken
+  }
+}

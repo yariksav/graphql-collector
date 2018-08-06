@@ -1,0 +1,13 @@
+fragment userFields on User {
+  id
+  username
+  email
+  firstname
+  lastname
+  fullname
+  avatar { 
+    ...avatarFields
+  },
+  account_status
+  options
+}

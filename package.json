@@ -1,0 +1,51 @@
+{
+  "name": "graphql-collector",
+  "version": "0.0.1",
+  "description": "Collect all graphql schemas to object",
+  "main": "./src/index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "bin": {
+    "graphql-collector": "./bin/graphql-collector"
+  },
+  "jest": {
+    "verbose": true,
+    "testURL": "http://localhost/",
+    "transform": {
+      "^.+\\.js$": "<rootDir>/node_modules/babel-jest"
+    },
+    "moduleFileExtensions": [
+      "js"
+    ],
+    "moduleNameMapper": {
+      "^@/(.*)$": "<rootDir>/src/$1"
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yariksav/graphql-collector.git"
+  },
+  "keywords": [
+    "graphql",
+    "schema",
+    "parser",
+    "collector"
+  ],
+  "author": "Yaroslav Savaryn",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/yariksav/graphql-collector/issues"
+  },
+  "homepage": "https://github.com/yariksav/graphql-collector#readme",
+  "devDependencies": {
+    "babel-jest": "^23.4.2",
+    "eslint": "^5.3.0",
+    "jest": "^23.4.2",
+    "should": "^13.2.3"
+  },
+  "dependencies": {
+    "graphql": "^0.13.2",
+    "graphql-tag": "^2.9.2"
+  }
+}
