@@ -1,10 +1,13 @@
 {
   "name": "graphql-collector",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Collect all graphql schemas to object",
   "main": "./src/index.js",
   "scripts": {
     "test": "jest"
+  },
+  "bin": {
+    "graphql-collector": "./bin/graphql-collector.js"
   },
   "jest": {
     "verbose": true,

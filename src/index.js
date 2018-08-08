@@ -118,17 +118,29 @@ const searchSchema = (dir, ext) => {
 }
 
 const collect = (dir, ext) => {
-  const schema = searchSchema(dir, ext)
-  if (!schema || schema.trim() === '') {
-    return {}
-  }
-  const gschema = gql(schema)
-  return splitSchemaToObject(gschema)
+  return new Promise((resolve) => {
+    const schema = searchSchema(dir, ext)
+    if (!schema || schema.trim() === '') {
+      resolve({})
+      return 
+    }
+    const gschema = gql(schema)
+    resolve(splitSchemaToObject(gschema))
+  })
 }
 
 const collectToFile = (dir, file, ext) => {
-  const schema = collect(dir, ext)
-  fs.writeFileSync(file, JSON.stringify(schema, undefined, 2))
+  return new Promise(function(resolve, reject) {
+    collect(dir, ext).then( schema => {
+
+      const jsonStr = JSON.stringify(schema, undefined, 2)
+      fs.writeFile(file, jsonStr, 'utf-8', function(err) {
+          if (err) reject(err)
+          else resolve(schema)
+      })
+    })
+  })
+  // fs.writeFile(file, , )
 }
 
 module.exports = {

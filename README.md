@@ -4,9 +4,25 @@ Import GraphQL queries/mutations/subscriptions of your project to one object
 
 ## Installation
 
+[![npm version](https://badge.fury.io/js/graphql-collector.svg)](https://badge.fury.io/js/graphql-collector)
+
 npm i graphql-collector
 
-[![npm version](https://badge.fury.io/js/graphql-collector.svg)](https://badge.fury.io/js/graphql-collector)
+## Use as global module
+
+npm i -g graphql-collector
+
+
+then run command `graphql-collector [directory] [filename.json]`
+
+```bash
+graphql-collector graphql schema.json
+```
+
+or simply run in your project, module will try to find all graphql files in folder and save to file `schema.json`
+```bash
+graphql-collector
+```
 
 ## Usage
 
@@ -15,7 +31,9 @@ const { collect } = require('graphql-collector')
 
 const graphqlSchemasDir = path.join(__dirname, 'graphql')
 
-const schema = collect(graphqlSchemasDir)
+const schema = collect(graphqlSchemasDir).then(schema => {
+  console.log(schema)
+})
 
 ```
 
