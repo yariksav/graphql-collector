@@ -3,11 +3,9 @@
 var { collectToFile } = require('../src/index.js')
 const path = require('path')
 
-console.log(process.argv)
 // Delete the 0 and 1 argument (node and script.js)
 var args = process.argv.splice(process.execArgv.length + 2);
 
-console.log(args)
 const dir = path.join(process.cwd(), args[0] || '')
 const file = path.join(process.cwd(), args[1] || 'schema.json')
 
