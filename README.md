@@ -53,8 +53,8 @@ const schema = await collectToFile(graphqlSchemasDir, file)
 ```
 
 
-## Example:
-If yo have files
+## Example
+Files:
 `movie-fragment.graphql`
 ```graphql
 fragment Movie on Film {
@@ -85,7 +85,7 @@ query ListMovies {
   }
 }
 ```
-Result of collect method will be:
+Will be convert to this object
 
 ```js
   const schema = {
