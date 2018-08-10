@@ -10,13 +10,15 @@ describe('serach and join schemas', () => {
   it ('should join all graphql files', async () => {
     const res = await collect(moksDir)
     should(res).be.Object().and.have.properties(['changePassword', 'getProfile', 'login', 'register'])
-    should(res.login).be.eql('mutation login($uid: String!, $password: String!) {\n  login(uid: $uid, password: $password) {\n    ...jwtToken\n  }\n}\n\nfragment jwtToken on JwtToken {\n  token\n  refreshToken\n  type\n}\n')
-    should(res.getProfile).be.eql('query getProfile {\n  profile {\n    ...userFields\n  }\n}\n\nfragment userFields on User {\n  id\n  username\n  email\n  firstname\n  lastname\n  fullname\n  avatar {\n    ...avatarFields\n  }\n  account_status\n  options\n}\n\nfragment avatarFields on Avatar {\n  large\n  original\n  thumbnail\n  normal\n  small\n}\n')
+    should(res.login).be.eql('mutation login($uid: String!, $password: String!) { login(uid: $uid, password: $password) { ...jwtToken } } fragment jwtToken on JwtToken { token refreshToken type }')
+    should(res.getProfile).be.eql('query getProfile { profile { ...userFields } } fragment userFields on User { id username email firstname lastname fullname avatar { ...avatarFields } account_status options } fragment avatarFields on Avatar { large original thumbnail normal small }')
+    should(res.register).be.eql('mutation register($username: String, $email: String!, $password: String!, $firstname: String, $lastname: String) { register(username: $username, email: $email, password: $password, firstname: $firstname, lastname: $lastname) { ...jwtToken } } fragment jwtToken on JwtToken { token refreshToken type }')
   })
 
   it ('should join and collect movie files', async () => {
     const res = await collect(moksDir + '/movie')
     should(res).be.Object().and.have.properties(['ListMovies'])
+    should(res.ListMovies).be.eql('query ListMovies { allFilms { films { ...Movie } } } fragment Movie on Film { id title director planetConnection { planets { ...Place } } } fragment Place on Planet { name climates }')
   })
 
   it ('should return empty object when no one file was found', async () => {

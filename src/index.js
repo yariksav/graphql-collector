@@ -8,48 +8,48 @@ function splitSchemaToObject (doc) {
   // Collect any fragment/type references from a node, adding them to the refs Set
   function collectFragmentReferences(node, refs) {
     if (node.kind === "FragmentSpread") {
-      refs.add(node.name.value);
+      refs.add(node.name.value)
     } else if (node.kind === "VariableDefinition") {
-      var type = node.type;
+      var type = node.type
       if (type.kind === "NamedType") {
-        refs.add(type.name.value);
+        refs.add(type.name.value)
       }
     }
 
     if (node.selectionSet) {
       node.selectionSet.selections.forEach(function(selection) {
-        collectFragmentReferences(selection, refs);
-      });
+        collectFragmentReferences(selection, refs)
+      })
     }
 
     if (node.variableDefinitions) {
       node.variableDefinitions.forEach(function(def) {
-        collectFragmentReferences(def, refs);
-      });
+        collectFragmentReferences(def, refs)
+      })
     }
 
     if (node.definitions) {
       node.definitions.forEach(function(def) {
-        collectFragmentReferences(def, refs);
-      });
+        collectFragmentReferences(def, refs)
+      })
     }
   }
 
   (function extractReferences() {
     (doc.definitions || []).forEach(function(def) {
       if (def.name) {
-        var refs = new Set();
-        collectFragmentReferences(def, refs);
-        definitionRefs[def.name.value] = refs;
+        var refs = new Set()
+        collectFragmentReferences(def, refs)
+        definitionRefs[def.name.value] = refs
       }
-    });
+    })
   })()
 
   function findOperation(doc, name) {
     for (var i = 0; i < doc.definitions.length; i++) {
-      var element = doc.definitions[i];
+      var element = doc.definitions[i]
       if (element.name && element.name.value == name) {
-        return element;
+        return element
       }
     }
   }
@@ -59,39 +59,39 @@ function splitSchemaToObject (doc) {
     var newDoc = {
       kind: doc.kind,
       definitions: [findOperation(doc, operationName)]
-    };
+    }
     if (doc.hasOwnProperty("loc")) {
-      newDoc.loc = doc.loc;
+      newDoc.loc = doc.loc
     }
 
     // Now, for the operation we're running, find any fragments referenced by
     // it or the fragments it references
-    var opRefs = definitionRefs[operationName] || new Set();
-    var allRefs = new Set();
-    var newRefs = new Set(opRefs);
+    var opRefs = definitionRefs[operationName] || new Set()
+    var allRefs = new Set()
+    var newRefs = new Set(opRefs)
     while (newRefs.size > 0) {
-      var prevRefs = newRefs;
-      newRefs = new Set();
+      var prevRefs = newRefs
+      newRefs = new Set()
 
       prevRefs.forEach(function(refName) {
         if (!allRefs.has(refName)) {
-          allRefs.add(refName);
-          var childRefs = definitionRefs[refName] || new Set();
+          allRefs.add(refName)
+          var childRefs = definitionRefs[refName] || new Set()
           childRefs.forEach(function(childRef) {
-            newRefs.add(childRef);
-          });
+            newRefs.add(childRef)
+          })
         }
-      });
+      })
     }
 
     allRefs.forEach(function(refName) {
-      var op = findOperation(doc, refName);
+      var op = findOperation(doc, refName)
       if (op) {
-        newDoc.definitions.push(op);
+        newDoc.definitions.push(op)
       }
-    });
+    })
 
-    return newDoc;
+    return newDoc
   }
 
 
@@ -100,14 +100,21 @@ function splitSchemaToObject (doc) {
     if (op.kind === "OperationDefinition") {
       if (!op.name) {
         if (operationCount > 1) {
-          throw "Query/mutation names are required for a document with multiple definitions";
+          throw "Query/mutation names are required for a document with multiple definitions"
         } else {
-          continue;
+          continue
         }
       }
 
-      const opName = op.name.value;
-      schema[opName] = print(oneQuery(doc, opName))
+      const opName = op.name.value
+      let queryStr = print(oneQuery(doc, opName))
+      if (queryStr) {
+        queryStr = queryStr
+          .replace(/(\r\n\t|\n|\r\t)/gm, ' ')
+          .replace(/ +/g, ' ')
+          .trim()
+        schema[opName] = queryStr
+      }
     }
   }
   return schema

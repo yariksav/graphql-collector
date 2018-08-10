@@ -37,14 +37,7 @@ const schema = collect(graphqlSchemasDir).then(schema => {
 
 ```
 
-Property `schema` will be object with named params, example:
 
-```js
-  const schema = {
-    ListMovies: 'query ListMovies {\n  allFilms{\n    films {\n ...Movie\n    }\n  }\n}\n\nfragment Movie on Film {\n  id\n  title\n  director\n  planetConnection {\n    planets {\n      ...Place\n   }\n  }\n}\n\nfragment Place on Planet {\n  name\n  climates\n}\n'
-  ...
-  }
-```
 
 ### Also you can use `collectToFile` function
 
@@ -55,6 +48,49 @@ const graphqlSchemasDir = path.join(__dirname, 'graphql')
 
 const file = path.join(__dirname, 'graphql.json')
 
-const schema = collect(graphqlSchemasDir, file)
+const schema = await collectToFile(graphqlSchemasDir, file)
 
+```
+
+
+## Example:
+If yo have files
+`movie-fragment.graphql`
+```graphql
+fragment Movie on Film {
+  id
+  title
+  director
+  planetConnection {
+    planets {
+      ...Place
+    }
+  }
+}
+```
+`place-fragment.graphql`
+```graphql
+fragment Place on Planet {
+  name
+  climates
+}
+```
+`listmovies.graphql`
+```graphql
+query ListMovies {
+  allFilms {
+    films {
+      ...Movie
+    }
+  }
+}
+```
+Result of collect method will be:
+
+```js
+  const schema = {
+    ListMovies: `query ListMovies { allFilms { films { ...Movie } } } fragment 
+    Movie on Film { id title director planetConnection { planets { ...Place } } } 
+    fragment Place on Planet { name climates }`
+  }
 ```
