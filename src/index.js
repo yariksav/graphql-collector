@@ -14,6 +14,8 @@ function splitSchemaToObject (doc) {
       if (type.kind === "NamedType") {
         refs.add(type.name.value)
       }
+    } else if (node.kind === "InputObjectTypeDefinition") {
+      return
     }
 
     if (node.selectionSet) {
@@ -117,7 +119,11 @@ function splitSchemaToObject (doc) {
       }
     }
   }
-  return schema
+  const ordered = {};
+  Object.keys(schema).sort().forEach(function(key) {
+    ordered[key] = schema[key]
+  })
+  return ordered
 }
 
 const searchSchema = (dir, ext) => {

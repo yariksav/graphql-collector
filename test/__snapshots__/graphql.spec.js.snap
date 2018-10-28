@@ -1,0 +1,28 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`serach and join schemas should join all graphql files 1`] = `
+Object {
+  "ListMovies": "query ListMovies { allFilms { films { ...Movie } } } fragment Movie on Film { id title director planetConnection { planets { ...Place } } } fragment Place on Planet { name climates }",
+  "changePassword": "mutation changePassword($oldPassword: String, $password: String!) { changePassword(oldPassword: $oldPassword, password: $password) }",
+  "findUsers": "query findUsers($filter: FilterInput) { findUsers(filter: $filter) { ...userFields } } fragment userFields on User { id username email firstname lastname fullname avatar { ...avatarFields } account_status options } fragment avatarFields on Avatar { large original thumbnail normal small }",
+  "getProfile": "query getProfile { profile { ...userFields } } fragment userFields on User { id username email firstname lastname fullname avatar { ...avatarFields } account_status options } fragment avatarFields on Avatar { large original thumbnail normal small }",
+  "login": "mutation login($uid: String!, $password: String!) { login(uid: $uid, password: $password) { ...jwtToken } } fragment jwtToken on JwtToken { token refreshToken type }",
+  "register": "mutation register($username: String, $email: String!, $password: String!, $firstname: String, $lastname: String) { register(username: $username, email: $email, password: $password, firstname: $firstname, lastname: $lastname) { ...jwtToken } } fragment jwtToken on JwtToken { token refreshToken type }",
+}
+`;
+
+exports[`serach and join schemas should join and collect movie files 1`] = `
+Object {
+  "ListMovies": "query ListMovies { allFilms { films { ...Movie } } } fragment Movie on Film { id title director planetConnection { planets { ...Place } } } fragment Place on Planet { name climates }",
+}
+`;
+
+exports[`serach and join schemas should return 1`] = `
+Object {
+  "changePassword": "mutation changePassword($oldPassword: String, $password: String!) { changePassword(oldPassword: $oldPassword, password: $password) }",
+  "findUsers": "query findUsers($filter: FilterInput) { findUsers(filter: $filter) { ...userFields } } fragment userFields on User { id username email firstname lastname fullname avatar { ...avatarFields } account_status options } fragment avatarFields on Avatar { large original thumbnail normal small }",
+  "getProfile": "query getProfile { profile { ...userFields } } fragment userFields on User { id username email firstname lastname fullname avatar { ...avatarFields } account_status options } fragment avatarFields on Avatar { large original thumbnail normal small }",
+  "login": "mutation login($uid: String!, $password: String!) { login(uid: $uid, password: $password) { ...jwtToken } } fragment jwtToken on JwtToken { token refreshToken type }",
+  "register": "mutation register($username: String, $email: String!, $password: String!, $firstname: String, $lastname: String) { register(username: $username, email: $email, password: $password, firstname: $firstname, lastname: $lastname) { ...jwtToken } } fragment jwtToken on JwtToken { token refreshToken type }",
+}
+`;

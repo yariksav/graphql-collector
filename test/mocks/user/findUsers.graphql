@@ -1,0 +1,5 @@
+query findUsers ($filter: FilterInput) {
+  findUsers (filter: $filter)  {
+    ...userFields
+  }
+}

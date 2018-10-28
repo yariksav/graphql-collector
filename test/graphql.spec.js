@@ -10,15 +10,13 @@ describe('serach and join schemas', () => {
   it ('should join all graphql files', async () => {
     const res = await collect(moksDir)
     should(res).be.Object().and.have.properties(['changePassword', 'getProfile', 'login', 'register'])
-    should(res.login).be.eql('mutation login($uid: String!, $password: String!) { login(uid: $uid, password: $password) { ...jwtToken } } fragment jwtToken on JwtToken { token refreshToken type }')
-    should(res.getProfile).be.eql('query getProfile { profile { ...userFields } } fragment userFields on User { id username email firstname lastname fullname avatar { ...avatarFields } account_status options } fragment avatarFields on Avatar { large original thumbnail normal small }')
-    should(res.register).be.eql('mutation register($username: String, $email: String!, $password: String!, $firstname: String, $lastname: String) { register(username: $username, email: $email, password: $password, firstname: $firstname, lastname: $lastname) { ...jwtToken } } fragment jwtToken on JwtToken { token refreshToken type }')
+    expect(res).toMatchSnapshot()
   })
 
   it ('should join and collect movie files', async () => {
     const res = await collect(moksDir + '/movie')
     should(res).be.Object().and.have.properties(['ListMovies'])
-    should(res.ListMovies).be.eql('query ListMovies { allFilms { films { ...Movie } } } fragment Movie on Film { id title director planetConnection { planets { ...Place } } } fragment Place on Planet { name climates }')
+    expect(res).toMatchSnapshot()
   })
 
   it ('should return empty object when no one file was found', async () => {
@@ -33,5 +31,10 @@ describe('serach and join schemas', () => {
     } catch (e) {
       should(e.message).startWith('ENOENT: no such file or directory')
     }
+  })
+
+  it ('should return', async () => {
+    const res = await collect(moksDir + '/user')
+    expect(res).toMatchSnapshot()
   })
 })

@@ -1,6 +1,6 @@
 {
   "name": "graphql-collector",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Collect all graphql schemas to object",
   "main": "./src/index.js",
   "scripts": {
